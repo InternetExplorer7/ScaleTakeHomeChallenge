@@ -24,7 +24,6 @@ app.use(function(req, res, next) {
 });
 
 app.post('/oh/shit', (req, res) => {
-
     console.log(JSON.stringify(req.body));
     res.sendStatus(200);
 })
