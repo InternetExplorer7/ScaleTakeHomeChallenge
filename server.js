@@ -9,16 +9,18 @@ const mongoose = require('mongoose');
 const bhttp = require('bhttp');
 mongoose.connect('mongodb://localhost:27017/test');
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
 // parse application/json
 app.use(bodyParser.json())
 
 var new_data = false; // true = new data; false = no new data.
 
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
 });
 
 app.post('/oh/shit', (req, res) => {
@@ -33,10 +35,10 @@ app.post('/complete/task', (req, res) => {
 
     // label task as complete
     tasks.findById(task._id).then((document) => {
-        document.completed = true;
-        document.save();
-    })
-    // POST to callback_url with boundingBox
+            document.completed = true;
+            document.save();
+        })
+        // POST to callback_url with boundingBox
     post_request('https://60ed3e1c.ngrok.io/oh/shit', boundingBox);
 
     res.sendStatus(200);
@@ -50,7 +52,7 @@ app.post('/fetch/tasks', (req, res) => {
     })
 })
 
-function filterBySuccess(document){
+function filterBySuccess(document) {
     if (document.completed === false) {
         return true;
     }
@@ -60,15 +62,15 @@ function filterBySuccess(document){
 app.post('/v1/task/annotation', (req, res) => {
     res.sendStatus(200);
     const task = new boundingBox(req.body.api_key,
-     req.body.instruction,
-      req.body.attachment,
-       req.body.attachment_type,
+        req.body.instruction,
+        req.body.attachment,
+        req.body.attachment_type,
         req.body.objects_to_annotate,
-         req.body.with_labels,
-          req.body.callback_url);
+        req.body.with_labels,
+        req.body.callback_url);
 
     var task_object = task.ret_req();
-    if (task_object.error_list.length > 0){
+    if (task_object.error_list.length > 0) {
         // At least one error was found.
         // send back error(s) to the callback.
         console.log('task object: ' + JSON.stringify(task_object));
@@ -92,8 +94,10 @@ app.post('/v1/task/annotation', (req, res) => {
     return;
 });
 // For posting JSON data
-function post_request(url, obj){
-    bhttp.post(url, { body: obj }).then((res) => {
+function post_request(url, obj) {
+    bhttp.post(url, {
+        body: obj
+    }).then((res) => {
         // console.log('response from host: ' + res);
     })
 }
