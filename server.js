@@ -59,7 +59,13 @@ function filterBySuccess(document){
 
 app.post('/v1/task/annotation', (req, res) => {
     res.sendStatus(200);
-    const task = new boundingBox(req.body.api_key, req.body.instruction, req.body.attachment, req.body.attachment_type, req.body.objects_to_annotate, req.body.with_labels, req.body.callback_url);
+    const task = new boundingBox(req.body.api_key,
+     req.body.instruction,
+      req.body.attachment,
+       req.body.attachment_type,
+        req.body.objects_to_annotate,
+         req.body.with_labels,
+          req.body.callback_url);
 
     var task_object = task.ret_req();
     if (task_object.error_list.length > 0){
