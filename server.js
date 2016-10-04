@@ -52,10 +52,7 @@ app.post('/fetch/tasks', (req, res) => {
 })
 
 function filterBySuccess(document) {
-    if (document.completed === false) {
-        return true;
-    }
-    return false;
+    return !document.completed;
 }
 
 app.post('/v1/task/annotation', (req, res) => {
